@@ -1,0 +1,143 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>New offer form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {
+	font-family: Verdana;
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+
+ul {
+	overflow: hidden;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li a {
+	text-decoration: none;
+	display: block;
+}
+
+.menu {
+	background-color: 0080ff;
+	padding-left: 10px;
+}
+
+.menu li {
+	float: left;
+}
+
+.menu li a {
+	color: white;
+	text-align: center;
+	padding: 15px;
+	border-bottom: 3px solid #0080ff;
+}
+
+.menu .selected {
+	border-bottom-color: #0060bf;
+	background-color: #0060bf;
+}
+
+.menu li a:hover {
+	border-bottom-color: #ff9900;
+}
+
+table {
+	border: 3px solid #0060bf;
+	margin: 10px;
+}
+
+th, td {
+	font-size: 12px;
+	padding: 5px;
+}
+
+th {
+	color: white;
+	background-color: #0080ff;
+	font-weight: bold;
+}
+
+td {
+	color: black;
+	background-color: #e6f7ff;
+	text-align: center;
+}
+
+a {
+	color: #ff8000;
+	text-decoration: none;
+}
+
+.pages {
+	padding: 2px;
+}
+</style>
+</head>
+<body>
+	<ul class="menu">
+		<li><a href="#" th:href="@{/offers/add}">Dodaj ofertę</a></li>
+		<li><a href="#" class="selected">Moje oferty</a></li>
+	</ul>
+	<table class="table">
+		<tr>
+			<th>#</th>
+			<th>Kraj</th>
+			<th>Miasto</th>
+			<th>Cena</th>
+			<th>Data</th>
+			<th>Ilość dni</th>
+			<th>Ilość osób</th>
+			<th>Posiłki</th>
+			<th>Transport</th>
+			<th>Klimat</th>
+			<th>Mapa</th>
+			<th>Galeria</th>
+			<th>Opis</th>
+			<th>Notyfikacja</th>
+		</tr>
+		<tr th:each="offer,iterStat : ${offers}">
+			<td th:text="${iterStat.count+(page-1)*recordPerPage}">1</td>
+			<td th:text="${offer.country}">Etiam (placeholder)</td>
+			<td th:text="${offer.city}">Facilisis</td>
+			<td th:text="${offer.price}">2541.00</td>
+			<td th:text="${offer.dateStart}">2016-03-25</td>
+			<td th:text="${offer.days}">1</td>
+			<td th:text="${offer.personCount}">Other</td>
+			<td th:text="${offer.mealsPreference}">Only breakfast</td>
+			<td th:text="${offer.transportType}">Airplane</td>
+			<td th:text="${offer.climateType}">Mountains</td>
+			<td><a href="#"
+				th:if="${offer.mapLatitude}!=0 and ${offer.mapLongitude}!=0"
+				th:href="'http://maps.google.com/maps?q='+${offer.mapLatitude}+','+${offer.mapLongitude}">
+					<th:block th:text="${offer.mapLatitude}">51.10896</th:block><br />
+					<th:block th:text="${offer.mapLongitude}">17.059935</th:block>
+			</a></td>
+			<td>
+				<ul>
+					<li th:each="galleryUrl : ${offer.galleryUrls}"><a href="#"
+						th:href="@{'/'+${galleryUrl}}" th:text="${galleryUrl}">/images/img1.jpg<br />/images/img2.jpg
+					</a></li>
+				</ul>
+			</td>
+			<td><a href="#" th:href="@{'/'+${offer.descriptionUrl}}"
+				th:text="${offer.descriptionUrl}">
+					offers/160928131551333/description(placeholder)</a></td>
+			<td>
+				<a href="#" th:href="@{'/notification/push?offerId='+${offer.offerId}}">Wyślij</a>
+			</td>
+		</tr>
+		<tr>
+			<th colspan="14"><a class="pages"
+				th:each="i : ${#numbers.sequence(0,countOfAllOffers/recordPerPage)}"
+				href="#" th:href="@{/offers/panel(page=${i+1})}" th:text="${i+1}">1</a></th>
+		</tr>
+	</table>
+
+</body>
+</html>

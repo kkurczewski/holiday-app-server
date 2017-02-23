@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Welcome page</title>
+<style>
+
+li {
+	display: block;
+	padding: 3px;
+}
+
+ul {
+	padding: 10px;
+    list-style-type: none;
+}
+
+a {
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<h3>Examples</h3>
+	<ul>
+		<li><a href="#" th:href="@{/offers/add}">Form for adding new offers</a></li>
+		<li><a href="#" th:href="@{/offers}">Offers list</a></li>
+		<li><a href="#" th:href="@{/offers?price=2200&amp;meals=1}">Custom search</a></li>
+		<li><a href="#" th:href="@{/notification/push?offerId=160928131551333}">Notification</a></li>
+		<li><a href="#" th:href="@{/offers/160928131551343/images/img_1.jpg?w=150&amp;h=330}">Resize image</a></li>
+	</ul>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>New offer form</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+
+body {
+	font-family: Verdana;
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+
+ul {
+	overflow: hidden;
+	list-style-type: none;
+	margin: 0;
+}
+
+li a {
+	text-decoration: none;
+	display: block;
+}
+
+.menu {
+	background-color: #0080ff;
+	padding-left: 10px;
+}
+
+.menu li {
+	float: left;
+}
+
+.menu li a {
+	color: white;
+	text-align: center;
+	padding: 15px;
+	border-bottom: 3px solid #0080ff;
+}
+
+.menu .selected {
+	border-bottom-color: #0060bf;
+	background-color: #0060bf;
+}
+
+.menu li a:hover {
+	border-bottom-color: #ff9900;
+}
+
+h3 {
+	margin: 0;
+	padding: 0;
+}
+
+select {
+	width: 175px;
+}
+
+.content {
+	width: 500px;
+	margin-left: 25%;
+}
+
+.error {
+	border: 3px solid;
+	/* colors */
+	color: #ff4000;
+	border-color: #ff4000;
+	background-color: #ffece6;
+	/* margins */
+	padding-left: 15px;
+	margin-top: 10px;
+}
+
+table {
+	border: 3px solid #0060bf;
+	margin: 10px;
+	background: #e6f7ff;
+	border-collapse: collapse;
+}
+
+th, td {
+	font-size: 12px;
+	padding: 10px;
+}
+
+th {
+	color: white;
+	background-color: #0080ff;
+	font-weight: bold;
+}
+
+td {
+	color: black;
+	background-color: #e6f7ff;
+	text-align: center;
+}
+
+.submit {
+	background-color: #0060bf;
+}
+
+</style>
+</head>
+<body>
+	<ul class="menu">
+		<li><a href="#" class="selected">Dodaj ofertę</a></li>
+		<li><a href="#" th:href="@{/offers/panel}">Moje oferty</a></li>
+	</ul>
+
+	<div class="content">
+		<div class="error" th:if="${response}">
+			<h2 th:text="${response}">Error occured</h2>
+		</div>
+		<div class="form">
+			<form action="#" th:action="@{/offers/add}"
+				enctype="multipart/form-data" th:object="${form}" method="post">
+				<table>
+					
+					<tr>
+						<th>Start date:<br /> <small>(format:
+								yyyy-mm-dd)</small></th>
+						<td><input type="date" th:field="*{date}" /></td>
+						<td th:if="${#fields.hasErrors('date')}" th:errors="*{date}">Error</td>
+					</tr>
+					<tr>
+						<th>How many days:</th>
+						<td><input type="text" th:field="*{days}" /></td>
+						<td th:if="${#fields.hasErrors('days')}" th:errors="*{days}">Error</td>
+					</tr>
+					<tr>
+						<th>How many person:</th>
+						<td><select th:field="*{persons}">
+								<option
+									th:each="option : ${@enumValuesProvider.getPersonsOptions()}"
+									th:value="${option}" th:text="${option}">Option</option>
+						</select></td>
+						<td th:if="${#fields.hasErrors('persons')}" th:errors="*{persons}">Error</td>
+					</tr>
+					<tr>
+						<th>Meals option:</th>
+						<td><select th:field="*{meals}">
+								<option
+									th:each="option : ${@enumValuesProvider.getMealsOptions()}"
+									th:value="${option}" th:text="${option}">Option</option>
+						</select></td>
+						<td th:if="${#fields.hasErrors('meals')}" th:errors="*{meals}">Error</td>
+					</tr>
+					<tr>
+						<th>Transport:</th>
+						<td><select th:field="*{transport}">
+								<option
+									th:each="option : ${@enumValuesProvider.getTransportOptions()}"
+									th:value="${option}" th:text="${option}">Option</option>
+						</select></td>
+						<td th:if="${#fields.hasErrors('transport')}"
+							th:errors="*{transport}">Error</td>
+					</tr>
+					<tr>
+						<th>Price:</th>
+						<td><input type="text" th:field="*{price}" /></td>
+						<td th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Error</td>
+					</tr>
+					<tr>
+						<th>Country:</th>
+						<td><input type="text" th:field="*{country}" /></td>
+						<td th:if="${#fields.hasErrors('country')}" th:errors="*{country}">Error</td>
+					</tr>
+					<tr>
+						<th>City:</th>
+						<td><input type="text" th:field="*{city}" /></td>
+						<td th:if="${#fields.hasErrors('city')}" th:errors="*{city}">Error</td>
+					</tr>
+					<tr>
+						<th>Climate type:</th>
+						<td><select th:field="*{climate}">
+								<option
+									th:each="option : ${@enumValuesProvider.getClimateOptionsFlags()}"
+									th:value="${option}" th:text="${option}">Option</option>
+						</select></td>
+						<td th:if="${#fields.hasErrors('climate')}" th:errors="*{climate}">Error</td>
+					</tr>
+					<tr>
+						<th>Description:<br /> <small>(limit
+								characters: 1251)</small>
+						</th>
+						<td><textarea th:field="*{description}" rows="20" cols="30"></textarea></td>
+						<td th:if="${#fields.hasErrors('description')}"
+							th:errors="*{description}">Error</td>
+					</tr>
+
+					<tr>
+						<th th:text="#{gallery.title}">Gallery:<br />
+							<small>(format: .jpg, max size: 2MB)</small>
+						</th>
+						<td>
+							<ul>
+								<li><input type="file" name="images[0]" /></li>
+								<li><input type="file" name="images[1]" /></li>
+								<li><input type="file" name="images[2]" /></li>
+								<li><input type="file" name="images[3]" /></li>
+								<li><input type="file" name="images[4]" /></li>
+							</ul>
+						</td>
+						<td>
+							<p th:if="${#fields.hasErrors('images')}" th:errors="*{images}">Error</p>
+						</td>
+					</tr>
+					<tr>
+						<th colspan="3" class="submit"><input type="submit" value="Submit" /> <input
+							type="reset" value="Reset" /></th>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>
