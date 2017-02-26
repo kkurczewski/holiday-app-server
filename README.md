@@ -21,6 +21,7 @@ Server functionalities:
 Used technologies:
 * SpringBoot
 * MySql database
+* [Thymeleaf](http://www.thymeleaf.org/)
 
 ## End note
 
